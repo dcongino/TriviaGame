@@ -1,0 +1,14 @@
+body {
+    background-image: url("../images/DMB2.png");
+}
+
+
+.container {
+    font-family: 'Oswald', sans-serif;
+    background-color: #87deda;
+    margin-top: 100px;
+}
+
+#buttonDiv {
+    font-family: 'Oswald', sans-serif; 
+}

@@ -1,13 +1,20 @@
-//Create an array of question objects that hold your trivia questions 
-var questions = [{
-    "question": "What does the 'J' stand for in David J. Matthews ?",
+var right = 0;
+var wrong = 0;
+var timeCounter;
+var timeAmount = 10;
+var count = 0;
+var questions = 
+[
+    {
+    "question": "What does the 'J' in David J. Matthews stand for ?",
     "option1": "Jeff",
     "option2": "John",
     "option3": "Jerry",
     "option4": "Jack",
-    "answer": "option2"  
-}, {
-    "question:": "What is the name of Dave Matthews Band's drummer ?",
+    "answer": "option2",
+},
+    {
+    "question": "What is the name of Dave Matthews Band's drummer ?",
     "option1": "Carter Beauford",
     "option2": "Carter Banks",
     "option3": "Banks Carter",
@@ -26,7 +33,7 @@ var questions = [{
     "option2": "Jeff Coffin",
     "option3": "Leroi Moore",
     "option4": "Boyd Tinsley",
-    "answer": "option4",
+    "answer": "option3",
 }, {
     "question": "In what country was Dave Matthews born ?",
     "option1": "United States",
@@ -36,62 +43,70 @@ var questions = [{
     "answer": "option4",
 }];
 
+$("#gameHolder").hide();
+$("#endGame").hide();
+
+$("#startButton").click(function() {startGame()});
+
 $("#answer1").on("click", function(){buttonClick("option1")});
 $("#answer2").on("click", function(){buttonClick("option2")});
 $("#answer3").on("click", function(){buttonClick("option3")});
 $("answer4").on("click", function(){buttonClick("option4")});
 
-//Create a variable to hold the time interval once the question begins
-var showQuestion;
-
-//Count will keep track of the index of the displayed questions
-var count = 0;
-
-//Create start button to initialize trivia game
-$("#startButton").click(function() {
-//run the startQuestions function here
-});
 
 //Timer in this function
 function startGame() {
-//Show gameholder div upon click
+    timeCounter = setInterval(timer, 1000);
+    $("#gameHolder").show();
+    $("#startDiv").hide();
+    nextQuestion ();
+}
 //Hide startDiv upon click
-
-}
-
-$("#doneButton").click(function() {
-//run the stopQuestions function here
-});
-
-//This function will replace display whatever image it's given in in the 'src' attribute of the image tag
-function displayImage() {
-    $("#image-holder").html("<img src=" + questions[count] + "width = '400px'>");
-}
-
 function nextQuestion() {
-//Replace the question in the question-holder div with the question in the array at position count
-
-//Replace the button text with new answers
+    if(count > questions.length - 1){
+        clearInterval(timeCounter);
+        $("#endGame").show();
+        $("#gameHolder").hide();
+        if (right >= wrong){
+            $("#resultText").html("Great DMB fan!")
+         }
+         else (
+             $("#resultText").html("Come on, be a better fan!")
+         )
+    }
+    else {
+        timeAmount = 10;
+        timer ();
+        $("#question").html((questions[count])["question"]);
+        $("#answer1").html((questions[count])["option1"]);
+        $("#answer2").html((questions[count])["option2"]);
+        $("#answer3").html((questions[count])["option3"]);
+        $("#answer4").html((questions[count])["option4"]);
+    }
 }
 
-function buttonClick(buttonAttribute){
-//Check the element at count, compare it's attribute with buttonAttribute, if they are the same, it's correct.
-
-//nameOfTopArray[1].element("question")
-
-//Increment Count
-
-//If count is the same as the length of the question array, end the game
-//Else, call nextQuestion after timer
+function timer() {
+    $("#timeRemaining").html(timeAmount);
+    timeAmount--;
+    if (timeAmount < -1)
+    {
+        count++;
+        nextQuestion();
+    }
 }
 
-//Use showQuestion to hold the setInterval to run nextQuestion
-function startQuestions() {
-
-
-}
-
-function stopQuestions() {
-
-
+//When buttons are clicked run this function
+function buttonClick (button){
+    if(button == (questions[count])["answer"]){
+        count++;
+        right++;
+        $("#amountCorrect").html(right)
+        nextQuestion();
+    } 
+    else{
+        count++;
+        wrong++;
+        $("#amountIncorrect").html(wrong);
+        nextQuestion();
+    }   
 }
