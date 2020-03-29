@@ -6,7 +6,8 @@ body {
 .container {
     font-family: 'Oswald', sans-serif;
     background-color: #87deda;
-    margin-top: 100px;
+    margin-top: 75px;
+    border-radius: 25px;
 }
 
 #buttonDiv {
